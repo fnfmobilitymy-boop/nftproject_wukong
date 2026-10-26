@@ -19,3 +19,8 @@ The hero uses transparent character artwork over a separate environment, with fl
 pointer parallax, scroll zoom, cloud particles and click bursts. These effects do not
 constitute a rigged 3D model. Reduced-motion preferences and the FX toggle are supported.
 Filter art styles, swipe/scroll the collection, and select a character to view its story.
+
+The hero now features a cloud-riding pose, a separate golden Somersault Cloud,
+a one-time fly-in entrance, cloud wake, and Replay Flight control. The camera,
+entrance and hover effects use separate transform layers to avoid conflicts.
+FX OFF and reduced-motion preferences show the rider directly without a fly-in.

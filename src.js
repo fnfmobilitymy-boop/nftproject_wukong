@@ -31,7 +31,7 @@ const hero=document.querySelector('.hero'),character=document.querySelector('.he
 const canvas=document.createElement('canvas');canvas.className='cloud-canvas';canvas.setAttribute('aria-hidden','true');document.body.append(canvas);const ctx=canvas.getContext('2d');
 let width=innerWidth,height=innerHeight,particles=[],running=!motionPreference.matches,last=0,lastFrame=0,frame=0,strikeTimer;
 function resize(){width=innerWidth;height=innerHeight;const dpr=Math.min(devicePixelRatio||1,2);canvas.width=width*dpr;canvas.height=height*dpr;ctx.setTransform(dpr,0,0,dpr,0,0)}resize();addEventListener('resize',resize,{passive:true});
-function setMotion(enabled){running=enabled;document.body.classList.toggle('motion-paused',!running);motionButton.textContent=running?'FX ON':'FX OFF';motionButton.setAttribute('aria-label',running?'Pause visual effects':'Enable visual effects');motionButton.setAttribute('aria-pressed',String(running));if(!running){particles=[];ctx.clearRect(0,0,width,height);character.style.transform='';hero.classList.remove('power-strike');document.querySelectorAll('.scene-ripple').forEach(r=>r.remove());cancelAnimationFrame(frame);frame=0}else{lastFrame=performance.now();if(!frame)frame=requestAnimationFrame(draw);updateCamera()}}
+function setMotion(enabled){running=enabled;document.querySelector('.replay-flight').disabled=!enabled;document.body.classList.toggle('motion-paused',!running);motionButton.textContent=running?'FX ON':'FX OFF';motionButton.setAttribute('aria-label',running?'Pause visual effects':'Enable visual effects');motionButton.setAttribute('aria-pressed',String(running));if(!running){particles=[];ctx.clearRect(0,0,width,height);character.style.transform='';hero.classList.remove('power-strike');document.querySelectorAll('.scene-ripple').forEach(r=>r.remove());cancelAnimationFrame(frame);frame=0}else{lastFrame=performance.now();if(!frame)frame=requestAnimationFrame(draw);updateCamera()}}
 motionButton.addEventListener('click',()=>setMotion(!running));motionPreference.addEventListener('change',event=>setMotion(!event.matches));
 function puff(x,y,burst=false){if(!running)return;for(let i=0;i<(burst?28:3);i++){const angle=Math.random()*Math.PI*2;particles.push({x,y,vx:Math.cos(angle)*(burst?3:.8),vy:Math.sin(angle)*(burst?3:.8)-.3,life:1,size:burst?6+Math.random()*19:13+Math.random()*19,gold:burst&&i%3===0})}if(particles.length>140)particles.splice(0,particles.length-140)}
 addEventListener('pointermove',event=>{if(!running)return;const now=performance.now();if(now-last>30){puff(event.clientX,event.clientY);last=now}if(scrollY<hero.offsetHeight){hero.style.setProperty('--pointer-x',`${(event.clientX/width-.5)*12}px`);updateCamera((event.clientX/width-.5)*10,(event.clientY/height-.5)*7)}},{passive:true});
@@ -44,3 +44,14 @@ setMotion(running);
 
 // Deep links can open the new collection without hunting through a horizontal list.
 if(new URLSearchParams(location.search).get("collection")==="modern"){document.querySelector('[data-filter="future"]').click();requestAnimationFrame(()=>document.querySelector('[data-filter="future"]').scrollIntoView({block:"nearest",inline:"nearest",behavior:"instant"}));}
+
+// Wait for the rider artwork before flying into the scene; never animate a missing image.
+const rider=document.querySelector('.monkey');
+const replayFlight=document.querySelector('.replay-flight');
+function arriveOnCloud(){
+  hero.classList.remove('scene-ready','power-strike');
+  void hero.offsetWidth;
+  hero.classList.add('scene-ready');
+}
+rider.decode().then(arriveOnCloud).catch(arriveOnCloud);
+replayFlight.addEventListener('click',()=>{if(running)arriveOnCloud()});
