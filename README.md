@@ -13,7 +13,8 @@ Expected URL after successful deployment: https://fnfmobilitymy-boop.github.io/n
 
 ## Artwork and interactions
 English-only interface inspired by a stylized fantasy character-collection site.
-Six original concept portraits: three 3D-style renders and three 2D illustrations.
+Ten original concept portraits: five 3D-style renders and five 2D illustrations.
+The Modern & Mecha filter highlights four streetwear, biker, robot, and mecha designs.
 The hero uses transparent character artwork over a separate environment, with floating,
 pointer parallax, scroll zoom, cloud particles and click bursts. These effects do not
 constitute a rigged 3D model. Reduced-motion preferences and the FX toggle are supported.
