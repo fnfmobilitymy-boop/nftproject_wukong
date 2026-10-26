@@ -6,3 +6,5 @@
 
 .future .card-portrait,.future .detail-art{background-image:url('/future-spirits.jpg');background-size:200% 200%}.filters{min-width:0;overflow-x:auto;scrollbar-width:thin;scrollbar-color:#d3b87e66 transparent}.filters button{white-space:nowrap;flex-shrink:0}.slider-controls{flex-shrink:0}
 @media(max-width:650px){.cloud-one{left:-20px}.cloud-two{right:-20px}}
+
+.cards>.future{order:-1}
